@@ -13,6 +13,25 @@
     <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
     <h1 id="meal">Ayet burada görünür.</h1>
     <script type="module">
+        var request = new XMLHttpRequest()
+        const url = 'https://free.currconv.com/api/v7/convert?q=USD_TRY&compact=ultra&apiKey=00cd242b015b2f532ab4';
+        
+        var sure = 1;
+        var ayet = 1;
+        await fetch(url)
+        .then(
+            response => response.json() // .json(), .blob(), etc.
+        ).then(
+            text => {
+                sure = Math.floor(text.USD_TRY);
+                ayet = Math.floor(((100 * text.USD_TRY) % 100) + 1);
+            }
+        );
+        // request.send();
+
+        console.log(sure);
+        console.log(ayet);
+
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
         import { getDatabase, ref, child, get } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-database.js";
       
@@ -29,8 +48,9 @@
       
         const app = initializeApp(firebaseConfig);
         const dbRef = ref(getDatabase(app));
-        get(child(dbRef, '1/1/1')).then((snapshot) => {
+        get(child(dbRef, "" + sure + "/" + ayet + "/" + "1")).then((snapshot) => {
         if (snapshot.exists()) {
+            console.log(snapshot.val());
             document.getElementById("meal").innerHTML = snapshot.val();
         } else {
             console.log("No data available");
