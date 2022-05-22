@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Dolar Ayeti</title>
+</head>
+
+<body>
+<div style="display:inline-block;vertical-align:top;">
+    <img src="caption.jpg" alt="sultanahmet"/>
+</div>
+
+<div style="display:inline-block;">
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <h1 id="meal">Ayet burada görünür.</h1>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
+        import { getDatabase, ref, child, get } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-database.js";
+      
+        const firebaseConfig = {
+          apiKey: "AIzaSyDm5RoZ47_ZAoSv_ZrGpFlNwq_XLhnXMlw",
+          authDomain: "meal-9f4e2.firebaseapp.com",
+          databaseURL: "https://meal-9f4e2-default-rtdb.europe-west1.firebasedatabase.app",
+          projectId: "meal-9f4e2",
+          storageBucket: "meal-9f4e2.appspot.com",
+          messagingSenderId: "609371907813",
+          appId: "1:609371907813:web:d84adeead7bfb3aec0960c",
+          measurementId: "G-DVX4TZMH84"
+        };
+      
+        const app = initializeApp(firebaseConfig);
+        const dbRef = ref(getDatabase(app));
+        get(child(dbRef, '1/1/1')).then((snapshot) => {
+        if (snapshot.exists()) {
+            document.getElementById("meal").innerHTML = snapshot.val();
+        } else {
+            console.log("No data available");
+        }
+        }).catch((error) => {
+            console.error(error);
+        });
+      </script>
+</div>
+
+</body>
+</html>
