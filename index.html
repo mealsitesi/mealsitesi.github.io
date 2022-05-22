@@ -6,11 +6,10 @@
 
 <body>
 <div style="display:inline-block;vertical-align:top;">
-    <img src="caption.jpg" alt="sultanahmet"/>
+    <!-- <img src="caption.jpg" alt="sultanahmet"/> -->
 </div>
 
 <div style="display:inline-block;">
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
     <h1 id="meal"></h1>
     <script type="module">
         var request = new XMLHttpRequest()
@@ -20,7 +19,7 @@
         var ayet = 1;
         await fetch(url)
         .then(
-            response => response.json() // .json(), .blob(), etc.
+            response => response.json()
         ).then(
             text => {
                 sure = Math.floor(text.USD_TRY);
@@ -45,21 +44,52 @@
           appId: "1:609371907813:web:d84adeead7bfb3aec0960c",
           measurementId: "G-DVX4TZMH84"
         };
-      
+
         const app = initializeApp(firebaseConfig);
         const dbRef = ref(getDatabase(app));
-        get(child(dbRef, "" + sure + "/" + ayet + "/" + "1")).then((snapshot) => {
-        if (snapshot.exists()) {
-            console.log(snapshot.val());
-            document.getElementById("meal").innerHTML = snapshot.val();
-        } else {
-            console.log("No data available");
+        
+        
+        var mealselect = 0;
+        var fnc = function() {
+            get(child(dbRef, "" + sure + "/" + ayet + "/" + mealselect)).then((snapshot) => {
+            if (snapshot.exists()) {
+                console.log(snapshot.val());
+                document.getElementById("meal").innerHTML = snapshot.val();
+            } else {
+                console.log("No data available");
+            }
+            }).catch((error) => {
+                console.error(error);
+            });
         }
-        }).catch((error) => {
-            console.error(error);
-        });
+        fnc();
+        var buttons = document.getElementsByClassName("button");
+        for (let i = 0, l = buttons.length; i < l; i++) {
+            buttons[i].addEventListener('click', function() {
+            mealselect = i;
+            fnc();
+            })
+        }
+        
+
+        
       </script>
 </div>
-
+<!-- <button class="curr" id="eur">EUR</button>
+<button class="curr" id="usd">USD</button> -->
+<br><br><br><br><br><br><br><br>
+<button class="button" id="0">Ayetin Orijinali</button>
+<button class="button" id="1">Ömer Çelik Meali</button>
+<button class="button" id="2">Diyanet Vakfı Meali</button>
+<button class="button" id="3">Diyanet İşleri (Eski) Meali</button>
+<button class="button" id="4">Diyanet İşleri (Yeni) Meali</button>
+<button class="button" id="5">Elmalılı Hamdi Yazır Meali</button>
+<button class="button" id="6">Elmalılı (Orijinal) Meali</button>
+<button class="button" id="7">Hasan Basri Çantay Meali</button>
+<button class="button" id="8">Hayrat Neşriyat Meali</button>
+<button class="button" id="9">Ali Fikri Yavuz Meali</button>
+<button class="button" id="10">Ömer Nasuhi Bilmen Meali</button>
+<button class="button" id="11">Ümit Şimşek Meali</button>
+<button class="button" id="12">Yusuf Ali (English) Meali</button>
 </body>
 </html>
